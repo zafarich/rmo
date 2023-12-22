@@ -33,7 +33,8 @@
               @click="handleClickExpansionItem(nav)"
             >
               <template #header>
-                <q-icon v-if="nav.icon" :name="nav.icon" :class="[nav.name]" />
+                <img :src="getIcon(nav.icon)" alt="" />
+
                 <span class="title">
                   {{ t(nav.title || "") }}
                 </span>
@@ -60,7 +61,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, defineAsyncComponent } from "vue";
 import { useQuasar } from "quasar";
 import { useI18n } from "vue-i18n";
 import { useMainStore } from "stores/main";
@@ -71,184 +72,47 @@ const leftDrawerOpen = ref(false);
 
 const menu = ref([
   {
-    title: "dashboard",
+    title: "Dashboard",
     to: "/",
     icon: "dashboard",
     name: "dashboard",
   },
-  {
-    title: "orders",
-    to: "/orders",
-    icon: "assignment",
-    name: "orders.list",
-  },
-  {
-    title: "contracts",
-    to: "/contracts",
-    icon: "work_history",
-    name: "contracts.list",
-  },
+  //   {
+  //     title: "Orders",
+  //     to: "/orders",
+  //     icon: "list-order",
+  //     name: "orders.list",
+  //   },
+  //   {
+  //     title: "Applications",
+  //     to: "/applications",
+  //     icon: "list-application",
+  //     name: "applications.list",
+  //   },
 
-  {
-    title: "Reconciliation_acts",
-    icon: "content_copy",
-    name: "act",
-    items: [
-      {
-        title: "All",
-        to: "/act",
-        name: "act.list",
-      },
-      {
-        title: "confirmed",
-        to: "/act/confirmed?status=14",
-        name: "act.confirmed.list",
-      },
-    ],
-  },
-  {
-    title: "users",
-    icon: "people",
-    name: "products",
-    items: [
-      {
-        title: "Sellers",
-        to: "/sellers",
-        icon: "receipt",
-        name: "sellers.list",
-      },
-      {
-        title: "Clients2",
-        to: "/clients",
-        icon: "receipt",
-        name: "clients.list",
-      },
-      {
-        title: "Admins",
-        to: "/admins",
-        icon: "account_circle",
-        name: "admins.list",
-      },
-    ],
-  },
-  {
-    title: "Moderation",
-    icon: "app_registration",
-    name: "products",
-    items: [
-      {
-        title: "Organizations",
-        to: "/organizations",
-        icon: "receipt",
-        name: "organizations.list",
-      },
-
-      // {
-      //   title: "goods",
-      //   to: "/products",
-      //   icon: "shopping_cart",
-      //   name: "products",
-      // },
-      {
-        title: "goods",
-        to: "/products2",
-        icon: "shopping_cart",
-        name: "products2.list",
-      },
-    ],
-  },
-  {
-    title: "Finance",
-    icon: "account_balance_wallet",
-    name: "finance",
-    items: [
-      {
-        title: "Claim_contracts",
-        to: { name: "finances.contracts.list" },
-      },
-
-      {
-        title: "Claims",
-        to: { name: "finances.claims.list" },
-      },
-      {
-        title: "Payment_schedule",
-        to: { name: "finances.payments.list" },
-      },
-    ],
-  },
-
-  {
-    title: "Reports",
-    icon: "summarize",
-    name: "reports",
-    items: [
-      {
-        title: "Applications_by_region",
-        to: { name: "reports.region.orders.list" },
-      },
-      {
-        title: "Applications_by_organization",
-        to: { name: "reports.organization.orders.list" },
-      },
-      {
-        title: "Transactions_by_organization",
-        to: { name: "reports.organization.contracts.list" },
-      },
-      {
-        title: "Request_report",
-        to: { name: "reports.orders.list" },
-      },
-    ],
-  },
-
-  {
-    title: "Payments",
-    icon: "summarize",
-    name: "payments",
-    items: [
-      {
-        title: "Payments_to_the_fund",
-        to: { name: "payments.fund.list" },
-      },
-      {
-        title: "Customer_payments",
-        to: { name: "payments.clients.list" },
-      },
-    ],
-  },
-
-  {
-    title: "settings",
-    icon: "settings",
-    name: "settings",
-    items: [
-      {
-        title: "Categories",
-        to: { name: "settings.category.list" },
-      },
-      {
-        title: "filters",
-        to: { name: "settings.filter.list" },
-      },
-      // {
-      //   title: "Brands",
-      //   to: { name: "settings.brand.list" },
-      // },
-      // {
-      //   title: "Languages",
-      //   to: { name: "settings.language.list" },
-      // },
-      {
-        title: "Group_attributes",
-        to: { name: "settings.attribute.list" },
-      },
-      // {
-      //   title: "Attributes_to_the_group",
-      //   to: { name: "settings.attribute-group.list" },
-      // },
-    ],
-  },
+  //   {
+  //     title: "Calls",
+  //     icon: "call",
+  //     name: "call",
+  //     items: [
+  //       {
+  //         title: "All_calls",
+  //         to: "/calls-all",
+  //         name: "calls-all.list",
+  //       },
+  //       {
+  //         title: "Missed_calls",
+  //         to: "/calls-missed",
+  //         name: "calls-missed.list",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: "Clients",
+  //     to: "/clients",
+  //     icon: "clients",
+  //     name: "clients.list",
+  //   },
 ]);
 const navList = computed(() => {
   return menu.value;
@@ -260,6 +124,10 @@ function handleClickExpansionItem(v) {
       if (el.items) el.value = false;
     });
   }
+}
+
+function GetIcon(icon) {
+  return defineAsyncComponent(() => import(`./left-icons/${icon}.vue`));
 }
 
 defineExpose({
