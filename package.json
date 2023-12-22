@@ -1,0 +1,43 @@
+{
+  "name": "rmo-front",
+  "version": "0.0.1",
+  "description": "RMO project in Texnomart",
+  "productName": "RMO-Texnomart",
+  "author": "zafarich <zqalandarov@texnomart.uz>",
+  "private": true,
+  "scripts": {
+    "lint": "eslint --ext .js,.vue ./",
+    "format": "prettier --write \"**/*.{js,vue,scss,html,md,json}\" --ignore-path .gitignore",
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "yarn i18n:build && quasar dev",
+    "build": "yarn i18n:build && quasar build",
+    "i18n:build": "google-spreadsheet-vue-i18n --spreadsheet=1YLx1mW1rmIOFQbMKwg5AIh_SWPAZy3mt94KfAUNkcqY --sheet=Admin --format=js --output=src/i18n/i18nData.js"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.16.4",
+    "axios": "^1.2.1",
+    "pinia": "^2.0.11",
+    "postcss-loader": "^7.3.3",
+    "quasar": "^2.6.0",
+    "tailwindcss": "^3.4.0",
+    "vue": "^3.0.0",
+    "vue-i18n": "^9.0.0",
+    "vue-router": "^4.0.0"
+  },
+  "devDependencies": {
+    "@intlify/vite-plugin-vue-i18n": "^3.3.1",
+    "@quasar/app-vite": "^1.3.0",
+    "autoprefixer": "^10.4.2",
+    "eslint": "^8.10.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-vue": "^9.0.0",
+    "google-spreadsheet-vue-i18n": "^1.0.3",
+    "postcss": "^8.4.32",
+    "prettier": "^2.5.1"
+  },
+  "engines": {
+    "node": "^18 || ^16 || ^14.19",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  }
+}
